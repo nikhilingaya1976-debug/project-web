@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BUS ONLINE TICKET SYSTEM</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f5fc;--card:#fff;--ink:#17203a;--mute:#66708f;--line:#e0e5f3;--pri:#5b3df5;--pri2:#8a5cff;--acc:#ff5a4e;--ok:#0fa678;--warn:#f08c00;--hdr:#1b1464;--seat:#e9edfb;--seatb:#b4bde6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1224;--card:#171c36;--ink:#eef0fb;--mute:#9aa3c4;--line:#283052;--seat:#252c4d;--seatb:#46508a;--hdr:#0a0c24;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1224;--card:#171c36;--ink:#eef0fb;--mute:#9aa3c4;--line:#283052;--seat:#252c4d;--seatb:#46508a;--hdr:#0a0c24;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;font:15px/1.5 'Plus Jakarta Sans',system-ui,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hdr);z-index:30}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--hdr);color:#fff}
+.nav{max-width:1100px;margin:auto;display:flex;align-items:center;gap:6px;padding:10px 16px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:17px;margin-right:auto;cursor:pointer;background:none;border:0;color:#fff;padding:4px 0}
+.nav button.l{background:none;border:0;color:#d9d6ff;padding:6px 10px;border-radius:8px}.nav button.l:hover{background:#ffffff22;color:#fff}
+.wrap{max-width:1100px;margin:auto;padding:0 16px}
+.hero{background:linear-gradient(120deg,#3a1fd1,#7b4dff 55%,#ff5a4e);color:#fff;padding:34px 0 70px}
+.hero h1{margin:0 0 6px;font-size:clamp(26px,5vw,40px);font-weight:800}.hero p{margin:0 0 22px;opacity:.9}
+.sf{background:var(--card);color:var(--ink);border-radius:16px;padding:14px;display:flex;gap:10px;align-items:end;flex-wrap:wrap;box-shadow:0 12px 30px #1b146455}
+.sf label{flex:1 1 150px;display:flex;flex-direction:column;font-size:12px;color:var(--mute);font-weight:600;gap:3px}
+.sf select,.sf input,.fm input,.fm select{border:1.5px solid var(--line);background:var(--bg);border-radius:10px;padding:10px;font-size:15px;color:var(--ink);width:100%}
+.sw{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);font-size:18px}
+.btn{border:0;border-radius:10px;padding:11px 18px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--pri),var(--pri2));transition:transform .15s,box-shadow .15s}
+.btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 16px #5b3df555}.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.acc{background:linear-gradient(135deg,var(--acc),#ff8a4e)}.btn.gh{background:none;color:var(--pri);border:1.5px solid var(--pri)}.btn.bad{background:#d92d3a}.btn.w{width:100%}.btn.sm{padding:7px 12px;font-size:13px}
+h2{font-size:20px;margin:26px 0 12px}h3{margin:0 0 10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--line);background:var(--card);border-radius:99px;padding:6px 14px;font-weight:600;font-size:13px}
+.chip.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:8px 0 30px}
+.ft{background:var(--card);border-radius:14px;padding:16px;border-left:5px solid var(--c);}.ft b{display:block;margin-bottom:2px}.ft span{color:var(--mute);font-size:14px}
+.lay{display:grid;grid-template-columns:230px 1fr;gap:18px;margin-top:18px}
+.side,.card{background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--line)}
+.side h4{margin:12px 0 8px;font-size:13px;color:var(--mute)}.side h4:first-child{margin-top:0}
+.bus{display:grid;grid-template-columns:1.4fr .8fr .6fr .8fr 1fr;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px;border-top:4px solid var(--pri)}
+.bus small{display:block;color:var(--mute)}.bus b{font-size:17px}.bus .pr{text-align:right}.bus .pr b{color:var(--acc);font-size:20px}
+.rt{display:inline-block;background:var(--ok);color:#fff;border-radius:6px;padding:0 7px;font-size:12px;font-weight:700;margin-top:4px}
+.dates{display:flex;gap:8px;overflow-x:auto;padding:4px 0}
+.dt{flex:0 0 auto;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:6px 12px;text-align:center;font-size:13px}.dt.on{background:var(--hdr);color:#fff;border-color:var(--hdr)}
+.sl{display:grid;grid-template-columns:1fr 300px;gap:18px;margin-top:18px}
+.busbox{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;max-width:340px;margin:auto}
+.drv{text-align:right;font-size:22px;border-bottom:2px dashed var(--line);padding-bottom:8px;margin-bottom:12px}
+.row{display:flex;gap:8px;justify-content:center;margin-bottom:9px}.row .ai{width:26px}
+.seat{width:42px;height:42px;border-radius:9px 9px 4px 4px;border:2px solid var(--seatb);background:var(--seat);font-size:12px;font-weight:700;transition:transform .12s,background .15s}
+.seat:hover:not(:disabled){transform:scale(1.08);border-color:var(--pri)}
+.seat.sel{background:var(--ok);border-color:var(--ok);color:#fff}.seat:disabled{background:repeating-linear-gradient(45deg,#c9cee0,#c9cee0 4px,#dfe3f0 4px,#dfe3f0 8px);color:#8b93ad;cursor:not-allowed;border-color:#c9cee0}
+.lg{display:flex;gap:14px;justify-content:center;font-size:12px;color:var(--mute);margin-top:10px}.lg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px;border:2px solid var(--seatb)}
+.kv{display:flex;justify-content:space-between;padding:4px 0}.kv.t{border-top:1px dashed var(--line);margin-top:6px;padding-top:8px;font-weight:800;font-size:17px}
+.tag{display:inline-block;border-radius:6px;padding:1px 9px;font-size:12px;font-weight:700;color:#fff}
+.CONFIRMED{background:var(--ok)}.CANCELLED{background:var(--mute)}.FAILED,.PENDING{background:#d92d3a}.WAITING{background:var(--warn)}.PROMOTED{background:var(--pri)}
+.tm{background:#fff3e0;color:#9a5b00;border-radius:10px;padding:8px 12px;font-weight:700;margin-bottom:12px}
+.fm label{display:block;font-size:12px;color:var(--mute);font-weight:600;margin:8px 0 3px}
+.g3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px}
+.ov{display:none;position:fixed;inset:0;background:#0a0c2488;z-index:50;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px)}.ov.on{display:flex}
+.mb{background:var(--card);border-radius:18px;padding:22px;width:min(420px,100%);max-height:90vh;overflow:auto;animation:pop .2s}
+@keyframes pop{from{transform:scale(.94);opacity:0}}
+.mb label{display:block;font-size:12px;color:var(--mute);font-weight:600;margin:8px 0 3px}.mb input,.mb select{width:100%;border:1.5px solid var(--line);background:var(--bg);border-radius:10px;padding:10px;color:var(--ink)}
+.tabs{display:flex;gap:6px;margin-bottom:6px}.tabs button{flex:1;border:1.5px solid var(--line);background:none;border-radius:9px;padding:8px;font-weight:700}.tabs .on{background:var(--pri);border-color:var(--pri);color:#fff}
+.err{color:#d92d3a;font-size:13px;min-height:18px;margin:6px 0}.mute{color:var(--mute);font-size:13px}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--hdr);color:#fff;padding:11px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.3s;z-index:60;max-width:90vw;text-align:center}#toast.on{opacity:1;transform:translate(-50%,0)}
+.tk{max-width:640px;margin:20px auto;background:var(--card);border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.tkh{background:linear-gradient(120deg,#3a1fd1,#ff5a4e);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.tkb{padding:20px 22px;display:grid;grid-template-columns:1fr auto;gap:16px;border-top:2px dashed var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}th{color:var(--mute);font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}.stats .card b{font-size:24px;display:block}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ok),var(--pri))}
+.empty{text-align:center;padding:40px 16px;color:var(--mute)}
+footer{text-align:center;color:var(--mute);font-size:13px;padding:30px 16px}
+@media(max-width:820px){.lay,.sl{grid-template-columns:1fr}.bus{grid-template-columns:1fr 1fr}.bus .pr{text-align:left}.g3{grid-template-columns:1fr 1fr}}
+@media print{header,footer,.np{display:none!important}body{background:#fff}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header><div class="nav" id="nav"></div></header>
+<main id="app"></main>
+<footer>Bus Online Ticket System · Demo project (payments are simulated) · Software Engineering, Nikhil Kumar 2405362</footer>
+<div class="ov" id="md"><div class="mb" id="mb" role="dialog" aria-modal="true"></div></div>
+<div id="toast" role="status"></div>
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const H=s=>{let h=5381;for(const c of 'bts$'+s)h=((h*33)^c.charCodeAt(0))>>>0;return h.toString(16)};
+const hash=s=>{let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0};
+const rnd=a=>()=>{a=(a+0x6D2B79F5)|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const today=()=>ymd(new Date()),addD=n=>{const d=new Date();d.setDate(d.getDate()+n);return ymd(d)};
+const fT=d=>new Date(d).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+const fD=d=>new Date(d).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+const inr=n=>'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});
+const r2=n=>Math.round(n*100)/100;
+const dur=h=>Math.floor(h)+'h '+String(Math.round(h%1*60)).padStart(2,'0')+'m';
+const CITIES=['Bhubaneswar','Cuttack','Puri','Kolkata','Ranchi','Visakhapatnam','Hyderabad','Bengaluru','Chennai'];
+const PAIRS=[['Bhubaneswar','Kolkata',440],['Bhubaneswar','Puri',60],['Bhubaneswar','Cuttack',30],['Bhubaneswar','Visakhapatnam',440],['Bhubaneswar','Ranchi',600],['Bhubaneswar','Hyderabad',1050],['Kolkata','Ranchi',400],['Kolkata','Puri',500],['Visakhapatnam','Hyderabad',620],['Hyderabad','Bengaluru',570],['Bengaluru','Chennai',350],['Visakhapatnam','Chennai',800]];
+const OPS=[['Utkal Express','AC Sleeper',1.9],['Konark Travels','AC Seater',1.5],['Jagannath Lines','Non-AC Seater',1],['Mahanadi Volvo','AC Sleeper',2.2],['Lingaraj Tours','Non-AC Sleeper',1.3]];
+const HRS=[5,8,12,16,19,21,22],GST=0.05,MAXS=6,LOCKMS=600000;
+let store={users:[{id:1,name:'Administrator',email:'admin@bts.com',pw:H('admin123'),role:'ADMIN'}],bookings:[],wait:[],extra:[],session:null,theme:null};
+const load=()=>{try{const s=JSON.parse(localStorage.getItem('bts_v1'));if(s&&s.users)store=Object.assign(store,s)}catch(e){}};
+const save=()=>{try{localStorage.setItem('bts_v1',JSON.stringify(store))}catch(e){}};
+/* ---------- data layer: trips, seats, locks ---------- */
+function genTrips(from,to,date){
+ const p=PAIRS.find(x=>x[0]==from&&x[1]==to||x[0]==to&&x[1]==from);let out=[];
+ if(p){const k=hash(from+to)%2;
+  for(let i=0;i<4;i++){const r=rnd(hash(from+to+date+i)),op=OPS[(hash(from+to)+i)%5],hr=HRS[(i*2+k)%7],mi=[0,15,30,45][Math.floor(r()*4)];
+   const dep=new Date(date+'T00:00:00');dep.setHours(hr,mi);const h=Math.max(1,Math.round(p[2]/55*4)/4);
+   const full=r()<.1,n=full?40:4+Math.floor(r()*28),s=new Set();while(s.size<n)s.add(1+Math.floor(r()*40));
+   out.push({id:[from,to,date,hr,mi].join('|'),from,to,dep,h,arr:new Date(+dep+h*36e5),op:op[0],type:op[1],fare:Math.max(150,Math.round(p[2]*op[2]*.9/10)*10),seeded:s,rate:(3.6+r()*1.2).toFixed(1)});}}
+ store.extra.forEach(e=>{if(e.from==from&&e.to==to&&e.date==date){const dep=new Date(e.date+'T'+e.time+':00');out.push({id:e.id,from,to,dep,h:6,arr:new Date(+dep+6*36e5),op:'BTS Express',type:e.type,fare:e.fare,seeded:new Set(),rate:'4.2'})}});
+ return out.filter(t=>t.dep>new Date()).sort((a,b)=>a.dep-b.dep)}
+const getTrip=id=>{const [f,t,d]=id.split('|');if(!d)return null;return genTrips(f,t,d).find(x=>x.id==id)||null};
+const booked=t=>{const s=new Set(t.seeded);store.bookings.forEach(b=>{if(b.tripId==t.id&&b.status=='CONFIRMED')b.seats.forEach(x=>s.add(x))});return s};
+let locks={};
+const expireLocks=()=>{const n=Date.now();for(const t in locks)for(const s in locks[t])if(locks[t][s]<=n)delete locks[t][s]};
+const lockedSet=t=>{expireLocks();return new Set(Object.keys(locks[t.id]||{}).map(Number))};
+function lock(t,seats){expireLocks();const b=booked(t),l=locks[t.id]||(locks[t.id]={});if(seats.some(s=>b.has(s)||l[s]))return 0;const e=Date.now()+LOCKMS;seats.forEach(s=>l[s]=e);return e}
+const release=(tid,seats)=>seats.forEach(s=>{if(locks[tid])delete locks[tid][s]});
+const free=t=>40-booked(t).size-lockedSet(t).size;
+const fare=(base,n)=>{const b=base*n,tot=r2(b*(1+GST));return{b,g:r2(tot-b),tot}};
+function refundOf(total,dep,now=Date.now()){const h=(new Date(dep)-now)/36e5;if(h>=24)return{ok:1,pct:90,amt:r2(total*.9),h};if(h>=2)return{ok:1,pct:50,amt:r2(total*.5),h};return{ok:0,pct:0,amt:0,h}}
+/* ---------- state and helpers ---------- */
+const S={v:'home',q:{from:'Bhubaneswar',to:'Kolkata',date:today()},f:{t:[],s:[],sort:'dep'},trip:null,sel:[],lock:0,pm:'UPI',am:'in',bk:null,pax:null};
+let timer=null,after=null,tt=null;
+const user=()=>store.users.find(u=>u.id==store.session)||null;
+const toast=m=>{const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),3200)};
+const modal=h=>{$('#mb').innerHTML=h;$('#md').classList.add('on')},closeM=()=>$('#md').classList.remove('on');
+$('#md').addEventListener('click',e=>{if(e.target.id=='md')closeM()});
+document.addEventListener('keydown',e=>{if(e.key=='Escape')closeM()});
+const drop=()=>{if(S.lock&&S.trip)release(S.trip.id,S.sel);S.lock=0};
+const go=v=>{if(v!='pax')drop();S.v=v;render();scrollTo(0,0)};
+const keep=()=>{const y=scrollY;render();scrollTo(0,y)};
+const opts=sel=>CITIES.map(c=>`<option${c==sel?' selected':''}>${c}</option>`).join('');
+function render(){clearInterval(timer);const m={home:vHome,res:vRes,seats:vSeats,pax:vPax,tk:vTk,hist:vHist,admin:vAdmin};$('#app').innerHTML=m[S.v]();hdr();if(S.v=='pax')startTimer()}
+function hdr(){const u=user();$('#nav').innerHTML=`<button class="logo" onclick="go('home')">🚌 BUS ONLINE TICKET SYSTEM</button><button class="l" onclick="go('home')">Book</button><button class="l" onclick="myTrips()">My trips</button>${u&&u.role=='ADMIN'?`<button class="l" onclick="go('admin')">Admin</button>`:''}<button class="l" onclick="theme()" aria-label="Toggle theme">◐</button>${u?`<button class="l" onclick="logout()">${esc(u.name.split(' ')[0])} · Sign out</button>`:`<button class="l" onclick="openAuth()">Sign in</button>`}`}
+function theme(){const d=document.documentElement,dark=d.dataset.theme?d.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;d.dataset.theme=dark?'light':'dark';store.theme=d.dataset.theme;save()}
+/* ---------- auth ---------- */
+function openAuth(cb){after=cb||null;S.am='in';authM()}
+function authM(){const r=S.am=='reg';modal(`<h3>${r?'Create account':'Sign in'}</h3><div class="tabs"><button class="${r?'':'on'}" onclick="S.am='in';authM()">Sign in</button><button class="${r?'on':''}" onclick="S.am='reg';authM()">Register</button></div>${r?'<label>Name<input id="an" autocomplete="name"></label>':''}<label>Email<input id="ae" type="email" autocomplete="email"></label><label>Password<input id="ap" type="password" autocomplete="current-password"></label><p class="err" id="ar"></p><button class="btn w" onclick="authGo()">${r?'Create account':'Sign in'}</button><p class="mute">Admin demo: admin@bts.com / admin123</p>`)}
+function authGo(){const e=$('#ae').value.trim().toLowerCase(),p=$('#ap').value,er=m=>$('#ar').textContent=m;
+ if(!/^\S+@\S+\.\S+$/.test(e))return er('Enter a valid email address.');
+ if(S.am=='reg'){const n=$('#an').value.trim();if(n.length<2)return er('Enter your name.');if(p.length<6)return er('Password must be at least 6 characters.');if(store.users.some(u=>u.email==e))return er('This email is already registered. Sign in instead.');
+  const u={id:Date.now(),name:n,email:e,pw:H(p),role:'PASSENGER'};store.users.push(u);store.session=u.id}
+ else{const u=store.users.find(x=>x.email==e&&x.pw==H(p));if(!u)return er('Email or password is incorrect.');store.session=u.id}
+ save();closeM();toast('Welcome, '+user().name.split(' ')[0]+'!');const cb=after;after=null;hdr();if(cb)cb();else if(user().role=='ADMIN')go('admin');else render()}
+function logout(){drop();store.session=null;save();toast('Signed out.');go('home')}
+const myTrips=()=>user()?go('hist'):openAuth(()=>go('hist'));
+/* ---------- home + results ---------- */
+function vHome(){return `<section class="hero"><div class="wrap"><h1>Book bus tickets in minutes</h1><p>Live seat maps, 10-minute seat holds, instant e-tickets and automatic refunds.</p>
+<div class="sf"><label>From<select id="qf">${opts(S.q.from)}</select></label><button class="sw" onclick="swap()" aria-label="Swap cities">⇄</button><label>To<select id="qt">${opts(S.q.to)}</select></label><label>Date<input type="date" id="qd" value="${S.q.date}" min="${today()}" max="${addD(30)}"></label><button class="btn acc" onclick="search()">Search buses</button></div></div></section>
+<div class="wrap"><h2>Popular routes</h2><div class="chips">${PAIRS.slice(0,8).map(p=>`<button class="chip" onclick="quick('${p[0]}','${p[1]}')">${p[0]} → ${p[1]}</button>`).join('')}</div>
+<h2>Why travel with us</h2><div class="feat">
+<div class="ft" style="--c:#5b3df5"><b>Live seat map</b><span>See exactly which seats are free, then pick up to 6.</span></div>
+<div class="ft" style="--c:#ff5a4e"><b>No double booking</b><span>Seats are held for 10 minutes while you pay.</span></div>
+<div class="ft" style="--c:#0fa678"><b>Clear refunds</b><span>90% back 24h+ before departure, 50% from 2 to 24h.</span></div>
+<div class="ft" style="--c:#f08c00"><b>Waiting list</b><span>Bus full? Join the queue and get the first freed seat.</span></div></div></div>`}
+function readQ(){const f=$('#qf'),t=$('#qt'),d=$('#qd');if(f){S.q={from:f.value,to:t.value,date:d.value||S.q.date}}}
+function swap(){readQ();S.q={from:S.q.to,to:S.q.from,date:S.q.date};render()}
+function quick(a,b){S.q.from=a;S.q.to=b;search(1)}
+function search(skip){if(!skip)readQ();const q=S.q;if(q.from==q.to)return toast('Choose different cities for From and To.');if(q.date<today()||q.date>addD(30))return toast('Pick a date within the next 30 days.');S.f={t:[],s:[],sort:'dep'};go('res')}
+const slot=h=>h>=5&&h<12?'Morning':h>=12&&h<17?'Afternoon':h>=17&&h<21?'Evening':'Night';
+const tm=(t,x)=>x=='AC'?/^AC/.test(t.type):t.type.includes(x);
+const flt=(k,v)=>{const a=S.f[k],i=a.indexOf(v);i<0?a.push(v):a.splice(i,1);keep()};
+function vRes(){const{from,to,date}=S.q,f=S.f,all=genTrips(from,to,date).map(t=>({...t,free:free(t)}));
+ let list=all.filter(t=>t.free>0&&(!f.t.length||f.t.some(x=>slot(t.dep.getHours())==x))&&(!f.s.length||f.s.some(x=>tm(t,x))));
+ const so={dep:(a,b)=>a.dep-b.dep,fare:(a,b)=>a.fare-b.fare,dur:(a,b)=>a.h-b.h,rate:(a,b)=>b.rate-a.rate};list.sort(so[f.sort]);
+ const sold=all.filter(t=>t.free<=0);
+ const ch=(k,v)=>`<button class="chip ${f[k].includes(v)?'on':''}" onclick="flt('${k}','${v}')">${v}</button>`;
+ const card=t=>`<div class="bus"><div><b>${esc(t.op)}</b><small>${t.type}</small><span class="rt">★ ${t.rate}</span></div><div><b>${fT(t.dep)}</b><small>${t.from}</small></div><div><small>${dur(t.h)}</small></div><div><b>${fT(t.arr)}${ymd(t.arr)!=ymd(t.dep)?' <small style="display:inline">+1</small>':''}</b><small>${t.to}</small></div><div class="pr"><b>${inr(t.fare)}</b><small>${t.free>0?t.free+' seats left':'Sold out'}</small>${t.free>0?`<button class="btn sm" onclick="pick('${t.id}')">View seats</button>`:`<button class="btn sm gh" onclick="joinWait('${t.id}')">Join waiting list</button>`}</div></div>`;
+ return `<div class="wrap"><h2 style="margin-bottom:4px">${from} → ${to}</h2><p class="mute" style="margin:0 0 8px">${fD(date+'T00:00:00')} · ${list.length} buses available</p>
+ <div class="dates">${Array.from({length:8},(_,i)=>{const d=addD(i);return `<button class="dt ${d==date?'on':''}" onclick="S.q.date='${d}';render()">${fD(d+'T00:00:00')}</button>`}).join('')}</div>
+ <div class="lay"><aside class="side"><h4>Sort by</h4><select onchange="S.f.sort=this.value;keep()" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)">${[['dep','Departure'],['fare','Lowest fare'],['dur','Shortest trip'],['rate','Top rated']].map(o=>`<option value="${o[0]}"${f.sort==o[0]?' selected':''}>${o[1]}</option>`).join('')}</select>
+ <h4>Bus type</h4><div class="chips">${['AC','Non-AC','Sleeper','Seater'].map(v=>ch('s',v)).join('')}</div><h4>Departure</h4><div class="chips">${['Morning','Afternoon','Evening','Night'].map(v=>ch('t',v)).join('')}</div></aside>
+ <section>${list.length?list.map(card).join(''):`<div class="empty card"><b>No buses found</b><p>${all.length?'Try removing a filter.':'There are no direct buses on this route and date. Try another date or a popular route.'}</p><button class="btn" onclick="go('home')">Change search</button></div>`}
+ ${sold.length?`<h2>Sold out · join the waiting list</h2>${sold.map(card).join('')}`:''}</section></div></div>`}
+function pick(id){const t=getTrip(id);if(!t)return toast('This bus has already departed.');S.trip=t;S.sel=[];go('seats')}
+function joinWait(id){const u=user();if(!u)return openAuth(()=>joinWait(id));if(store.wait.some(w=>w.tripId==id&&w.uid==u.id&&w.status!='DONE'))return toast('You are already on this waiting list.');
+ const t=getTrip(id);store.wait.push({tripId:id,uid:u.id,name:u.name,from:t.from,to:t.to,dep:t.dep.toISOString(),status:'WAITING'});save();toast('Added to the waiting list. We will promote you when a seat frees up.')}
+/* ---------- seats ---------- */
+function vSeats(){const t=S.trip,b=booked(t),l=lockedSet(t),n=S.sel.length,f=fare(t.fare,n);
+ let rows='';for(let r=0;r<10;r++){const seat=i=>{const s=r*4+i,na=b.has(s)||l.has(s);return `<button class="seat ${S.sel.includes(s)?'sel':''}" ${na?'disabled':''} onclick="tog(${s})" aria-label="Seat ${s}${na?' unavailable':''}">${s}</button>`};rows+=`<div class="row">${seat(1)}${seat(2)}<span class="ai"></span>${seat(3)}${seat(4)}</div>`}
+ return `<div class="wrap"><button class="btn gh sm" style="margin-top:16px" onclick="go('res')">← Back to buses</button><h2 style="margin-top:12px">${esc(t.op)} · ${t.type}</h2><p class="mute" style="margin:0">${t.from} → ${t.to} · ${fD(t.dep)}, ${fT(t.dep)}</p>
+ <div class="sl"><div><div class="busbox"><div class="drv" title="Driver">🧑‍✈️</div>${rows}<div class="lg"><span><i></i>Free</span><span><i style="background:var(--ok);border-color:var(--ok)"></i>Selected</span><span><i style="background:#c9cee0;border-color:#c9cee0"></i>Booked</span></div></div></div>
+ <aside class="card" style="align-self:start"><h3>Your selection</h3>${n?`<div class="chips" style="margin-bottom:10px">${S.sel.map(s=>`<span class="chip on">Seat ${s}</span>`).join('')}</div>
+ <div class="kv"><span>Base fare × ${n}</span><span>${inr(f.b)}</span></div><div class="kv"><span>GST 5%</span><span>${inr(f.g)}</span></div><div class="kv t"><span>Total</span><span>${inr(f.tot)}</span></div>`:'<p class="mute">Tap a free seat to select it. You can book up to 6 seats.</p>'}
+ <button class="btn acc w" style="margin-top:12px" ${n?'':'disabled'} onclick="cont()">Continue</button></aside></div></div>`}
+function tog(s){const i=S.sel.indexOf(s);if(i>=0)S.sel.splice(i,1);else{if(S.sel.length>=MAXS)return toast('You can book at most 6 seats.');S.sel.push(s)}keep()}
+function cont(){if(!user())return openAuth(cont);const e=lock(S.trip,S.sel);if(!e){S.sel=[];toast('One of those seats was just taken. Please choose again.');return keep()}S.lock=e;S.sel.sort((a,b)=>a-b);S.v='pax';render();scrollTo(0,0)}
+/* ---------- passengers + payment ---------- */
+function startTimer(){const tick=()=>{const r=S.lock-Date.now();if(r<=0){clearInterval(timer);closeM();toast('Seat hold expired. Seats were released.');S.sel=[];go('res');return}const e=$('#tmr');if(e)e.textContent=Math.floor(r/60000)+':'+String(Math.floor(r%60000/1000)).padStart(2,'0')};tick();timer=setInterval(tick,1000)}
+function vPax(){const t=S.trip,f=fare(t.fare,S.sel.length),u=user();
+ return `<div class="wrap"><button class="btn gh sm" style="margin-top:16px" onclick="go('seats')">← Change seats</button><div class="sl"><div class="card fm" style="margin-top:16px"><div class="tm">⏱ Seats held for <span id="tmr">10:00</span> minutes</div><h3>Passenger details</h3>
+ ${S.sel.map((s,i)=>`<label>Seat ${s}</label><div class="g3"><input id="pn${i}" placeholder="Full name" autocomplete="off"><input id="pa${i}" type="number" min="1" max="120" placeholder="Age"><select id="pg${i}"><option>Male</option><option>Female</option><option>Other</option></select></div>`).join('')}
+ <h3 style="margin-top:18px">Contact</h3><div class="g3" style="grid-template-columns:1fr 1fr"><div><label>Email</label><input id="pe" type="email" value="${esc(u.email)}"></div><div><label>Mobile</label><input id="pp" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit number"></div></div></div>
+ <aside class="card" style="align-self:start;margin-top:16px"><h3>Fare summary</h3><p class="mute" style="margin:0 0 8px">${t.from} → ${t.to}<br>${fD(t.dep)}, ${fT(t.dep)}</p><div class="kv"><span>Seats</span><span>${S.sel.join(', ')}</span></div><div class="kv"><span>Base fare</span><span>${inr(f.b)}</span></div><div class="kv"><span>GST 5%</span><span>${inr(f.g)}</span></div><div class="kv t"><span>Total</span><span>${inr(f.tot)}</span></div><button class="btn acc w" style="margin-top:12px" onclick="payOpen()">Proceed to pay</button></aside></div></div>`}
+function payOpen(){const pax=[];for(let i=0;i<S.sel.length;i++){const n=$('#pn'+i).value.trim(),a=+$('#pa'+i).value;if(n.length<2)return toast('Enter the name for seat '+S.sel[i]+'.');if(!(a>=1&&a<=120))return toast('Enter a valid age for seat '+S.sel[i]+'.');pax.push({n,a,g:$('#pg'+i).value})}
+ const e=$('#pe').value.trim(),p=$('#pp').value.trim();if(!/^\S+@\S+\.\S+$/.test(e))return toast('Enter a valid email address.');if(!/^\d{10}$/.test(p))return toast('Mobile number must be 10 digits.');
+ S.pax={pax,e,p};payM()}
+function payM(){const f=fare(S.trip.fare,S.sel.length),m=S.pm,ph={UPI:'name@bank',Card:'16-digit card number',Net:''};
+ modal(`<h3>Pay ${inr(f.tot)}</h3><div class="tabs">${[['UPI','UPI'],['Card','Card'],['Net','Net banking']].map(x=>`<button class="${m==x[0]?'on':''}" onclick="S.pm='${x[0]}';payM()">${x[1]}</button>`).join('')}</div>
+ ${m=='Net'?`<label>Bank</label><select id="pin"><option>State Bank of India</option><option>HDFC Bank</option><option>ICICI Bank</option><option>Axis Bank</option></select>`:`<label>${m=='UPI'?'UPI ID':'Card number'}</label><input id="pin" placeholder="${ph[m]}" autocomplete="off" ${m=='Card'?'inputmode="numeric"':''}>`}
+ <label style="display:flex;gap:8px;align-items:center;margin-top:14px"><input type="checkbox" id="pf" style="width:auto"> Simulate a failed payment (demo)</label><p class="err" id="pr"></p>
+ <button class="btn acc w" id="pb" onclick="doPay()">Pay ${inr(f.tot)}</button><p class="mute">Payment gateway is simulated. No card data is stored.</p>`)}
+function doPay(){const m=S.pm,v=$('#pin').value.trim(),er=x=>$('#pr').textContent=x;
+ if(m=='UPI'&&!/^[\w.\-]{2,}@[\w]{2,}$/.test(v))return er('Enter a valid UPI ID, for example name@bank.');
+ if(m=='Card'&&!/^\d{16}$/.test(v.replace(/\s/g,'')))return er('Enter a 16-digit card number.');
+ const fail=$('#pf').checked,b=$('#pb');b.disabled=true;b.textContent='Processing payment…';setTimeout(()=>finish(fail,m),1200)}
+function finish(fail,mode){const t=S.trip,u=user(),f=fare(t.fare,S.sel.length);let pnr;do{pnr='BTS'+Math.random().toString(36).slice(2,9).toUpperCase()}while(store.bookings.some(b=>b.pnr==pnr));
+ const base={pnr,uid:u.id,tripId:t.id,from:t.from,to:t.to,dep:t.dep.toISOString(),arr:t.arr.toISOString(),op:t.op,type:t.type,seats:[...S.sel],pax:S.pax.pax,email:S.pax.e,phone:S.pax.p,base:f.b,gst:f.g,total:f.tot,at:new Date().toISOString(),refund:0,mode};
+ let why=fail?'Payment failed.':S.lock<=Date.now()?'The 10-minute seat hold expired.':booked(t).has(S.sel.find(s=>booked(t).has(s)))?'A seat was taken by someone else.':'';
+ if(why){release(t.id,S.sel);S.lock=0;store.bookings.push({...base,status:'FAILED'});save();closeM();toast(why+' No money was charged and the seats were released.');S.sel=[];return go('res')}
+ store.bookings.push({...base,status:'CONFIRMED'});store.wait.forEach(w=>{if(w.tripId==t.id&&w.uid==u.id)w.status='DONE'});release(t.id,S.sel);S.lock=0;save();closeM();S.bk=pnr;toast('Booking confirmed! PNR '+pnr);go('tk')}
+/* ---------- ticket, history, cancellation ---------- */
+function qr(p){const r=rnd(hash(p)),n=21;let s='';for(let y=0;y<n;y++)for(let x=0;x<n;x++){const fx=(x<7&&y<7)||(x>13&&y<7)||(x<7&&y>13),on=fx?(x%14<7&&y%14<7&&!(x%14>0&&x%14<6&&y%14>0&&y%14<6&&!(x%14>1&&x%14<5&&y%14>1&&y%14<5))):r()>.5;if(on)s+=`<rect x="${x}" y="${y}" width="1" height="1"/>`}return `<svg viewBox="0 0 21 21" width="110" height="110" fill="currentColor" aria-label="Ticket code">${s}</svg>`}
+function vTk(){const b=store.bookings.find(x=>x.pnr==S.bk);if(!b)return `<div class="empty">Ticket not found.</div>`;
+ return `<div class="wrap"><div class="tk"><div class="tkh"><div><div style="opacity:.85;font-size:12px">E-TICKET · PNR</div><b style="font-size:26px;letter-spacing:2px">${b.pnr}</b></div><span class="tag ${b.status}">${b.status}</span></div>
+ <div class="tkb"><div><b style="font-size:18px">${b.from} → ${b.to}</b><p class="mute" style="margin:2px 0 10px">${esc(b.op)} · ${b.type}<br>Departs ${fD(b.dep)}, ${fT(b.dep)} · Arrives ${fT(b.arr)}</p>
+ <table><tr><th>Seat</th><th>Passenger</th><th>Age</th></tr>${b.seats.map((s,i)=>`<tr><td><b>${s}</b></td><td>${esc(b.pax[i].n)}</td><td>${b.pax[i].a}</td></tr>`).join('')}</table>
+ <div class="kv t"><span>Fare paid (incl. GST)</span><span>${inr(b.total)}</span></div>${b.status=='CANCELLED'?`<div class="kv"><span>Refunded</span><span>${inr(b.refund)}</span></div>`:''}</div><div style="text-align:center;color:var(--ink)">${qr(b.pnr)}<p class="mute">Show at boarding</p></div></div></div>
+ <div class="np" style="text-align:center;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn" onclick="print()">Print / save as PDF</button><button class="btn gh" onclick="go('hist')">My trips</button><button class="btn gh" onclick="go('home')">Book another</button></div></div>`}
+function vHist(){const u=user();if(!u)return `<div class="empty">Sign in to see your trips.</div>`;
+ const bs=store.bookings.filter(b=>b.uid==u.id).sort((a,b)=>b.at.localeCompare(a.at)),ws=store.wait.filter(w=>w.uid==u.id&&w.status!='DONE');
+ return `<div class="wrap"><h2>My trips</h2>${bs.length?bs.map(b=>`<div class="card" style="margin-bottom:12px;display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;align-items:center"><div><b>${b.from} → ${b.to}</b> <span class="tag ${b.status}">${b.status}</span><br><span class="mute">PNR ${b.pnr} · ${fD(b.dep)}, ${fT(b.dep)} · Seats ${b.seats.join(', ')} · ${inr(b.total)}</span></div><div style="display:flex;gap:8px">${b.status!='FAILED'?`<button class="btn sm gh" onclick="S.bk='${b.pnr}';go('tk')">View ticket</button>`:''}${b.status=='CONFIRMED'&&new Date(b.dep)>new Date()?`<button class="btn sm bad" onclick="askCancel('${b.pnr}')">Cancel</button>`:''}</div></div>`).join(''):`<div class="empty card"><b>No trips yet</b><p>Your bookings will appear here.</p><button class="btn" onclick="go('home')">Find a bus</button></div>`}
+ ${ws.length?`<h2>Waiting list</h2>${ws.map(w=>`<div class="card" style="margin-bottom:12px;display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;align-items:center"><div><b>${w.from} → ${w.to}</b> <span class="tag ${w.status}">${w.status=='PROMOTED'?'SEAT AVAILABLE':'WAITING'}</span><br><span class="mute">${fD(w.dep)}, ${fT(w.dep)}</span></div><div style="display:flex;gap:8px">${w.status=='PROMOTED'?`<button class="btn sm" onclick="pick('${w.tripId}')">Book now</button>`:''}<button class="btn sm gh" onclick="leaveWait('${w.tripId}')">Leave</button></div></div>`).join('')}`:''}</div>`}
+function leaveWait(id){const u=user();store.wait=store.wait.filter(w=>!(w.tripId==id&&w.uid==u.id));save();keep()}
+function askCancel(pnr){const b=store.bookings.find(x=>x.pnr==pnr),r=refundOf(b.total,b.dep);
+ modal(`<h3>Cancel ticket ${pnr}?</h3><p>${b.from} → ${b.to}, ${fD(b.dep)} ${fT(b.dep)}<br><span class="mute">${r.h>0?dur(r.h)+' before departure':'Already departed'}</span></p>${r.ok?`<div class="kv"><span>Fare paid</span><span>${inr(b.total)}</span></div><div class="kv t"><span>Refund (${r.pct}%)</span><span>${inr(r.amt)}</span></div>`:`<p class="err">Cancellation is not allowed within 2 hours of departure.</p>`}
+ <div style="display:flex;gap:8px;margin-top:14px"><button class="btn gh w" onclick="closeM()">Keep ticket</button>${r.ok?`<button class="btn bad w" onclick="doCancel('${pnr}')">Cancel and refund</button>`:''}</div>`)}
+function doCancel(pnr){const b=store.bookings.find(x=>x.pnr==pnr),r=refundOf(b.total,b.dep);if(b.status!='CONFIRMED'||!r.ok){closeM();return toast('This ticket can no longer be cancelled.')}
+ b.status='CANCELLED';b.refund=r.amt;const w=store.wait.find(x=>x.tripId==b.tripId&&x.status=='WAITING');if(w)w.status='PROMOTED';save();closeM();toast(`Cancelled. ${inr(r.amt)} will be refunded.`+(w?' First waiting passenger has been promoted.':''));keep()}
+/* ---------- admin ---------- */
+function vAdmin(){const u=user();if(!u||u.role!='ADMIN')return `<div class="empty">Admin access only.</div>`;
+ const bs=store.bookings,ok=bs.filter(b=>b.status=='CONFIRMED'),cx=bs.filter(b=>b.status=='CANCELLED'),rev=ok.reduce((a,b)=>a+b.total,0)+cx.reduce((a,b)=>a+b.total-b.refund,0);
+ const routes=PAIRS.map(p=>{let n=0,sold=0;for(let d=0;d<7;d++)[[p[0],p[1]],[p[1],p[0]]].forEach(([a,c])=>genTrips(a,c,addD(d)).forEach(t=>{n++;sold+=booked(t).size}));const mine=bs.filter(b=>b.status=='CONFIRMED'&&(b.from==p[0]&&b.to==p[1]||b.from==p[1]&&b.to==p[0]));return{name:p[0]+' ↔ '+p[1],occ:n?Math.round(sold/(n*40)*100):0,bk:mine.length,rev:mine.reduce((a,b)=>a+b.total,0)}});
+ return `<div class="wrap"><h2>Admin dashboard</h2><div class="stats"><div class="card"><span class="mute">Net revenue</span><b>${inr(rev)}</b></div><div class="card"><span class="mute">Confirmed bookings</span><b>${ok.length}</b></div><div class="card"><span class="mute">Cancellations</span><b>${cx.length}</b></div><div class="card"><span class="mute">Registered passengers</span><b>${store.users.filter(x=>x.role!='ADMIN').length}</b></div></div>
+ <h2>Occupancy and bookings per route (next 7 days)</h2><div class="card" style="overflow-x:auto"><table><tr><th>Route</th><th style="min-width:140px">Occupancy</th><th>Bookings</th><th>Revenue</th></tr>${routes.map(r=>`<tr><td>${r.name}</td><td><div class="bar"><i style="width:${r.occ}%"></i></div>${r.occ}%</td><td>${r.bk}</td><td>${inr(r.rev)}</td></tr>`).join('')}</table></div>
+ <h2>Schedule a trip</h2><div class="card fm"><div class="g3" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))"><div><label>From</label><select id="af">${opts('Bhubaneswar')}</select></div><div><label>To</label><select id="at">${opts('Kolkata')}</select></div><div><label>Date</label><input type="date" id="ad" min="${today()}" value="${addD(1)}"></div><div><label>Time</label><input type="time" id="ah" value="21:00"></div><div><label>Base fare (₹)</label><input type="number" id="afa" min="1" value="700"></div><div><label>Bus type</label><select id="aty"><option>AC Sleeper</option><option>AC Seater</option><option>Non-AC Seater</option><option>Non-AC Sleeper</option></select></div></div><button class="btn" style="margin-top:12px" onclick="addTrip()">Add trip</button></div>
+ <h2>Trips you added</h2><div class="card">${store.extra.length?`<table><tr><th>Route</th><th>Departure</th><th>Fare</th><th></th></tr>${store.extra.map(e=>`<tr><td>${e.from} → ${e.to}</td><td>${fD(e.date+'T00:00:00')}, ${e.time}</td><td>${inr(e.fare)}</td><td><button class="btn sm bad" onclick="delTrip('${e.id}')">Delete</button></td></tr>`).join('')}</table>`:'<p class="mute">No custom trips yet.</p>'}</div></div>`}
+function addTrip(){const e={id:'x'+Date.now(),from:$('#af').value,to:$('#at').value,date:$('#ad').value,time:$('#ah').value,fare:+$('#afa').value,type:$('#aty').value};
+ if(e.from==e.to)return toast('From and To must differ.');if(!e.date||!e.time||new Date(e.date+'T'+e.time+':00')<=new Date())return toast('Pick a future date and time.');if(!(e.fare>0))return toast('Enter a fare above zero.');
+ e.id=[e.from,e.to,e.date,0,0].join('|')+'|'+e.id;store.extra.push(e);save();toast('Trip added. Passengers can now find it.');keep()}
+function delTrip(id){if(store.bookings.some(b=>b.tripId==id&&b.status=='CONFIRMED'))return toast('This trip has confirmed bookings and cannot be deleted.');store.extra=store.extra.filter(e=>e.id!=id);save();toast('Trip deleted.');keep()}
+load();if(store.theme)document.documentElement.dataset.theme=store.theme;render();
+</script>
+</body>
+</html>
